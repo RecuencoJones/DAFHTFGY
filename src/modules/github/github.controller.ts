@@ -1,6 +1,8 @@
-import { Controller, Post, Body } from '@nestjs/common'
+import { Controller, Post, Body, Headers } from '@nestjs/common'
 import { EventTypes } from '../../enum/event-types'
 import { EventBus } from '../common/event-bus.component'
+
+const GITHUB_EVENT_HEADER = 'X-GitHub-Event'.toLowerCase()
 
 @Controller('github')
 export class GithubController {
@@ -12,9 +14,11 @@ export class GithubController {
    * @param data - GitHub event
    */
   @Post('push')
-  receivePushEvent(@Body() data) {
-    if (data.action.toLowerCase() === 'push') {
-      this.eventBus.emit(EventTypes.GITHUB_PUSH, data)
+  receivePushEvent(@Headers(GITHUB_EVENT_HEADER) event, @Body() data) {
+    if (event === 'push') {
+      this.eventBus.emit(EventTypes.GITHUB_PUSH, {
+        commit: data.head_commit.url
+      })
     }
   }
 }

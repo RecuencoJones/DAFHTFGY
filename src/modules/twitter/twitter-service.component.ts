@@ -2,12 +2,14 @@ import { Component } from '@nestjs/common'
 import { MessageType } from '../../enum/message-type'
 import { MessageService } from './message-service.component'
 import { TwitterClient } from './twitter-client.component'
+import { Logger } from '../common/logger.component'
 
 @Component()
 export class TwitterService {
   constructor(
     private readonly messageService: MessageService,
-    private readonly twitterClient: TwitterClient
+    private readonly twitterClient: TwitterClient,
+    private readonly logger: Logger
   ) {}
 
   /**
@@ -15,10 +17,14 @@ export class TwitterService {
    *
    * @param type
    */
-  tweet(type: MessageType) {
-    const message = this.messageService.generate(type)
+  tweet(type: MessageType, url?) {
+    let message = this.messageService.generate(type)
 
-    console.log(message)
+    if (url) {
+      message = message.concat(`\n\n${url}`)
+    }
+
+    this.logger.debug(message)
     // twitterClient.tweet(message)
   }
 }

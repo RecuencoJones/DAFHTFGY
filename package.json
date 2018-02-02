@@ -4,18 +4,24 @@
   "scripts": {
     "serve": "node dist/main.js",
     "build": "tsc",
-    "lint": "tslint --project ."
+    "lint": "tslint --project .",
+    "test": "jest --config jest.unit.js",
+    "test:e2e": "jest --config jest.e2e.js"
   },
   "dependencies": {
     "@nestjs/common": "4.5.9",
     "@nestjs/core": "4.5.10",
+    "dotenv": "5.0.0",
     "node-cron": "1.2.1",
     "reflect-metadata": "0.1.10",
     "rxjs": "5.5.6",
     "twitter": "1.7.1"
   },
   "devDependencies": {
+    "@types/jest": "22.1.1",
     "@types/node": "9.4.0",
+    "jest": "22.1.4",
+    "ts-jest": "22.0.2",
     "tslint": "5.9.1",
     "typescript": "2.7.1"
   }

@@ -1,5 +1,6 @@
 import * as Twitter from 'twitter'
 import { Component } from '@nestjs/common'
+import { Logger } from '../common/logger.component'
 
 const keys = require('../../../assets/keys.json')
 
@@ -7,7 +8,7 @@ const keys = require('../../../assets/keys.json')
 export class TwitterClient {
   private twitter: Twitter
 
-  constructor() {
+  constructor(private readonly logger: Logger) {
     this.twitter = new Twitter(keys)
   }
 
@@ -23,7 +24,7 @@ export class TwitterClient {
       if (error) {
         console.error(error)
       } else {
-        console.log('Tweeted!', tweet)
+        this.logger.debug('Tweeted!', tweet)
       }
     })
   }
