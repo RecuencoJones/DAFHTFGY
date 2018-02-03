@@ -1,14 +1,20 @@
 import * as Twitter from 'twitter'
 import { Component } from '@nestjs/common'
+import { Env } from '../common/env.component'
 import { Logger } from '../common/logger.component'
-
-const keys = require('../../../assets/keys.json')
 
 @Component()
 export class TwitterClient {
   private twitter: Twitter
 
-  constructor(private readonly logger: Logger) {
+  constructor(private readonly env: Env, private readonly logger: Logger) {
+    const keys = {
+      consumer_key: this.env.get('consumer_key'),
+      consumer_secret: this.env.get('consumer_secret'),
+      access_token_key: this.env.get('access_token_key'),
+      access_token_secret: this.env.get('access_token_secret')
+    }
+
     this.twitter = new Twitter(keys)
   }
 
@@ -24,7 +30,7 @@ export class TwitterClient {
       if (error) {
         console.error(error)
       } else {
-        this.logger.debug('Tweeted!', tweet)
+        this.logger.debug('Tweeted!', tweet.id)
       }
     })
   }

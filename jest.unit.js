@@ -1,5 +1,8 @@
 module.exports = {
   testEnvironment: 'node',
+  setupFiles: [
+    '<rootDir>/test/config/setup.ts'
+  ],
   testMatch: [
     '<rootDir>/test/specs/unit/**/*'
   ],

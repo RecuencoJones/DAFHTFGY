@@ -1,5 +1,5 @@
 import { MessageService } from '../../../src/modules/twitter/message-service.component'
-import { MessageType } from '../../../src/enum/message-type';
+import { MessageType } from '../../../src/enum/message-type'
 
 const messages = require('../../../assets/no.json')
 

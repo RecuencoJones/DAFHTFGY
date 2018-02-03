@@ -25,6 +25,6 @@ export class TwitterService {
     }
 
     this.logger.debug(message)
-    // twitterClient.tweet(message)
+    this.twitterClient.tweet(message)
   }
 }
