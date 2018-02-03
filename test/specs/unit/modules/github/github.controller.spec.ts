@@ -6,9 +6,7 @@ describe('GitHub Controller', () => {
   let ctrl: GithubController, eventBusMock: EventBus, githubServiceMock: GithubService
 
   beforeEach(() => {
-    eventBusMock = {
-      emit: jest.fn()
-    }
+    eventBusMock = { emit: jest.fn() }
 
     githubServiceMock = {
       verifySignature: jest.fn(() => true)

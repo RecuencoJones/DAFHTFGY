@@ -1,6 +1,6 @@
 import { Component } from '@nestjs/common'
 import { MessageType } from '../../enum/message-type'
-import { MessageService } from './message-service.component'
+import { MessageService } from '../message/message.service'
 import { TwitterClient } from './twitter-client.component'
 import { Logger } from '../common/logger.component'
 

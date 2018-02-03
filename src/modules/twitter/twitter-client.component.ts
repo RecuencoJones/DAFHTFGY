@@ -28,7 +28,7 @@ export class TwitterClient {
       status: message
     }, (error, tweet) => {
       if (error) {
-        console.error(error)
+        this.logger.error(error)
       } else {
         this.logger.debug('Tweeted!', tweet.id)
       }

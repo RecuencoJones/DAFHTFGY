@@ -2,12 +2,13 @@ import { Component } from '@nestjs/common'
 import { MessageType } from '../../enum/message-type'
 import { EventTypes } from '../../enum/event-types'
 import { EventBus } from '../common/event-bus.component'
-import { TwitterService } from './twitter-service.component'
+import { TwitterService } from './twitter.service'
+import { Random } from '../common/random.component'
 import { Logger } from '../common/logger.component'
 
 const HOURS_UNTIL_MIDDAY = 12
 const HOUR_RANGE = 6
-const HOUR_IN_MILLIS = 1000 //* 60 * 60
+const HOUR_IN_MILLIS = 1000 * 60 * 60
 
 @Component()
 export class TwitterEvents {
@@ -17,6 +18,7 @@ export class TwitterEvents {
   constructor(
     private readonly eventBus: EventBus,
     private readonly twitterService: TwitterService,
+    private readonly random: Random,
     private readonly logger: Logger
   ) {
     this.eventBus.on(EventTypes.GITHUB_PUSH, this.handleYes.bind(this))
@@ -49,7 +51,7 @@ export class TwitterEvents {
    * Pick a random hour between 12:00 and 18:00
    */
   private generateRandomDelay(): number {
-    const hour = Math.round(Math.random() * HOUR_RANGE) + HOURS_UNTIL_MIDDAY
+    const hour = Math.round(this.random.next() * HOUR_RANGE) + HOURS_UNTIL_MIDDAY
 
     this.logger.debug(`Tweet at: ${hour}:00 hours`)
 

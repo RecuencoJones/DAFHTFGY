@@ -2,18 +2,14 @@ import { Component } from '@nestjs/common'
 import { MessageType } from '../../enum/message-type'
 import { MessageOptions, MessageLikelihood } from '../../types/messages'
 import { Random } from '../common/random.component'
+import { Messages } from './messages.component'
 
 @Component()
 export class MessageService {
-  private messages: MessageOptions = {
-    [MessageType.YES]: require('../../../assets/yes.json'),
-    [MessageType.NO]: require('../../../assets/no.json')
-  }
-
-  constructor(private readonly random: Random) {}
+  constructor(private readonly messages: Messages, private readonly random: Random) {}
 
   generate(type: MessageType) {
-    return this.pick(this.messages[type]).text
+    return this.pick(this.messages.get(type)).text
   }
 
   private pick(messages: Array<MessageLikelihood>) {
