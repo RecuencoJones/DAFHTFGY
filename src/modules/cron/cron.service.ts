@@ -6,15 +6,10 @@ import { Env } from '../common/env.component'
 
 @Component()
 export class CronService {
-  private interval = {
-    daily: '0 0 * * *',
-    every30Seconds: '*/30 * * * * *'
-  }
-
   constructor(private readonly eventBus: EventBus, private readonly env: Env) {
     const interval = this.env.get('interval', '0 0 * * *')
 
-    schedule(this.interval.every30Seconds, this.notifyEachDay.bind(this))
+    schedule(interval, this.notifyEachDay.bind(this))
   }
 
   /**
