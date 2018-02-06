@@ -5,6 +5,7 @@ import { EventBus } from '../common/event-bus.component'
 import { TwitterService } from './twitter.service'
 import { Random } from '../common/random.component'
 import { Logger } from '../common/logger.component'
+import { SharedStorage } from '../common/shared-storage.service'
 
 const HOURS_UNTIL_MIDDAY = 12
 const HOUR_RANGE = 6
@@ -19,7 +20,8 @@ export class TwitterEvents {
     private readonly eventBus: EventBus,
     private readonly twitterService: TwitterService,
     private readonly random: Random,
-    private readonly logger: Logger
+    private readonly logger: Logger,
+    private readonly sharedStorage: SharedStorage
   ) {
     this.eventBus.on(EventTypes.GITHUB_PUSH, this.handleYes.bind(this))
     this.eventBus.on(EventTypes.CRON_TICK, this.handleNo.bind(this))
@@ -54,6 +56,7 @@ export class TwitterEvents {
     const hour = Math.round(this.random.next() * HOUR_RANGE) + HOURS_UNTIL_MIDDAY
 
     this.logger.debug(`Tweet at: ${hour}:00 hours`)
+    this.sharedStorage.set('nextTick', `${hour}:00`)
 
     return hour * HOUR_IN_MILLIS
   }
