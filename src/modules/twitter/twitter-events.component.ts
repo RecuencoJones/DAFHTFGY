@@ -10,6 +10,9 @@ import { SharedStorage } from '../common/shared-storage.service'
 const HOURS_UNTIL_MIDDAY = 12
 const HOUR_RANGE = 6
 const HOUR_IN_MILLIS = 1000 * 60 * 60
+const CHECK_AT_MIDNIGHT_MESSAGE = ', please check at midnight for the next hour.'
+const JUST_DEPLOYED_MESSAGE = `Application just deployed${CHECK_AT_MIDNIGHT_MESSAGE}`
+const ALREADY_TWEETED_MESSAGE = `Already tweeted today${CHECK_AT_MIDNIGHT_MESSAGE}`
 
 @Component()
 export class TwitterEvents {
@@ -25,12 +28,14 @@ export class TwitterEvents {
   ) {
     this.eventBus.on(EventTypes.GITHUB_PUSH, this.handleYes.bind(this))
     this.eventBus.on(EventTypes.CRON_TICK, this.handleNo.bind(this))
+    this.sharedStorage.set('nextTick', JUST_DEPLOYED_MESSAGE)
   }
 
   handleYes({commit}) {
     // for consistency sake, do not tweet no today
     this.sent = true
     this.twitterService.tweet(MessageType.YES, commit)
+    this.sharedStorage.set('nextTick', ALREADY_TWEETED_MESSAGE)
   }
 
   handleNo() {
@@ -45,6 +50,7 @@ export class TwitterEvents {
       // race condition: he actually did something today!
       if (!this.sent) {
         this.twitterService.tweet(MessageType.NO)
+        this.sharedStorage.set('nextTick', ALREADY_TWEETED_MESSAGE)
       }
     }, delay)
   }
