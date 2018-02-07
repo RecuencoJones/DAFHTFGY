@@ -35,8 +35,10 @@ export class Logger {
   }
 
   private log(level: string, ...messages) {
+    const timestamp = (new Date()).toISOString()
+
     if (levels.indexOf(level) >= levels.indexOf(this.level)) {
-      console.log(...messages)
+      console.log(`[${timestamp}]`, `[${level}]`, ...messages)
     }
   }
 }
